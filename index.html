@@ -1,0 +1,813 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red248\green250\blue251;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0\c90196;\cssrgb\c97647\c98431\c98824;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>SommelierJack - Wine Enthusiast & Collector</title>\
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">\
+    <style>\
+        :root \{\
+            --bordeaux: #722F37;\
+            --oro: #C9A961;\
+            --bianco: #F5F0E8;\
+            --nero: #2C2C2C;\
+        \}\
+\
+        * \{\
+            margin: 0;\
+            padding: 0;\
+            box-sizing: border-box;\
+        \}\
+\
+        body \{\
+            font-family: 'Lato', sans-serif;\
+            background-color: var(--bianco);\
+            color: var(--nero);\
+            line-height: 1.6;\
+        \}\
+\
+        /* Selettore Lingua - Design pulito */\
+        .lang-selector \{\
+            position: fixed;\
+            top: 20px;\
+            right: 20px;\
+            z-index: 10000;\
+        \}\
+\
+        .lang-btn \{\
+            background: white;\
+            border: 2px solid var(--oro);\
+            border-radius: 30px;\
+            padding: 10px 20px;\
+            font-family: 'Lato', sans-serif;\
+            font-size: 0.9rem;\
+            font-weight: 700;\
+            color: var(--bordeaux);\
+            cursor: pointer;\
+            display: flex;\
+            align-items: center;\
+            gap: 8px;\
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);\
+            transition: all 0.3s ease;\
+        \}\
+\
+        .lang-btn:hover \{\
+            background: var(--bordeaux);\
+            color: white;\
+            border-color: var(--bordeaux);\
+            transform: translateY(-2px);\
+            box-shadow: 0 6px 20px rgba(114,47,55,0.3);\
+        \}\
+\
+        .lang-btn .arrow \{\
+            transition: transform 0.3s ease;\
+            font-size: 0.7rem;\
+        \}\
+\
+        .lang-btn.active .arrow \{\
+            transform: rotate(180deg);\
+        \}\
+\
+        .lang-dropdown \{\
+            position: absolute;\
+            top: 55px;\
+            right: 0;\
+            background: white;\
+            border-radius: 15px;\
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);\
+            overflow: hidden;\
+            min-width: 180px;\
+            display: none;\
+        \}\
+\
+        .lang-dropdown.show \{\
+            display: block;\
+        \}\
+\
+        .lang-option \{\
+            padding: 12px 20px;\
+            cursor: pointer;\
+            display: flex;\
+            align-items: center;\
+            gap: 10px;\
+            transition: all 0.2s ease;\
+            font-size: 0.9rem;\
+            color: var(--nero);\
+            background: white;\
+            border: none;\
+            width: 100%;\
+            text-align: left;\
+            font-family: 'Lato', sans-serif;\
+        \}\
+\
+        .lang-option:hover \{\
+            background: var(--bianco);\
+            color: var(--bordeaux);\
+        \}\
+\
+        .lang-option.active \{\
+            background: var(--bordeaux);\
+            color: white;\
+        \}\
+\
+        .lang-flag \{\
+            font-size: 1.2rem;\
+        \}\
+\
+        /* Header elegante */\
+        header \{\
+            background: linear-gradient(135deg, var(--bordeaux) 0%, #4A1C23 100%);\
+            color: var(--bianco);\
+            padding: 2rem 0;\
+            text-align: center;\
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);\
+        \}\
+\
+        h1 \{\
+            font-family: 'Playfair Display', serif;\
+            font-size: 3rem;\
+            margin-bottom: 0.5rem;\
+            letter-spacing: 2px;\
+        \}\
+\
+        .subtitle \{\
+            font-weight: 300;\
+            font-size: 1.2rem;\
+            color: var(--oro);\
+            letter-spacing: 3px;\
+            text-transform: uppercase;\
+        \}\
+\
+        /* Navigazione */\
+        nav \{\
+            background: var(--nero);\
+            padding: 1rem;\
+            position: sticky;\
+            top: 0;\
+            z-index: 100;\
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\
+        \}\
+\
+        nav ul \{\
+            list-style: none;\
+            display: flex;\
+            justify-content: center;\
+            flex-wrap: wrap;\
+            gap: 2rem;\
+        \}\
+\
+        nav a \{\
+            color: var(--bianco);\
+            text-decoration: none;\
+            font-weight: 400;\
+            letter-spacing: 1px;\
+            transition: color 0.3s;\
+            text-transform: uppercase;\
+            font-size: 0.9rem;\
+        \}\
+\
+        nav a:hover \{\
+            color: var(--oro);\
+        \}\
+\
+        /* Sezioni */\
+        .container \{\
+            max-width: 1200px;\
+            margin: 0 auto;\
+            padding: 3rem 2rem;\
+        \}\
+\
+        .section-title \{\
+            font-family: 'Playfair Display', serif;\
+            font-size: 2.5rem;\
+            color: var(--bordeaux);\
+            margin-bottom: 2rem;\
+            text-align: center;\
+            position: relative;\
+            padding-bottom: 1rem;\
+        \}\
+\
+        .section-title::after \{\
+            content: '';\
+            position: absolute;\
+            bottom: 0;\
+            left: 50%;\
+            transform: translateX(-50%);\
+            width: 80px;\
+            height: 3px;\
+            background: var(--oro);\
+        \}\
+\
+        /* Biografia */\
+        .bio \{\
+            display: grid;\
+            grid-template-columns: 300px 1fr;\
+            gap: 3rem;\
+            align-items: start;\
+            margin: 3rem 0;\
+        \}\
+\
+        .bio-img \{\
+            width: 100%;\
+            border-radius: 10px;\
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);\
+        \}\
+\
+        .bio-text \{\
+            font-size: 1.1rem;\
+            line-height: 1.8;\
+        \}\
+\
+        /* Griglia bottiglie */\
+        .wine-grid \{\
+            display: grid;\
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\
+            gap: 2.5rem;\
+            margin: 3rem 0;\
+        \}\
+\
+        .wine-card \{\
+            background: white;\
+            border-radius: 15px;\
+            overflow: hidden;\
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);\
+            transition: transform 0.3s, box-shadow 0.3s;\
+            border: 1px solid #e0e0e0;\
+        \}\
+\
+        .wine-card:hover \{\
+            transform: translateY(-5px);\
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);\
+        \}\
+\
+        .wine-img \{\
+            width: 100%;\
+            height: 350px;\
+            object-fit: cover;\
+            background: #f0f0f0;\
+        \}\
+\
+        .wine-content \{\
+            padding: 1.5rem;\
+        \}\
+\
+        .wine-title \{\
+            font-family: 'Playfair Display', serif;\
+            font-size: 1.4rem;\
+            color: var(--bordeaux);\
+            margin-bottom: 0.5rem;\
+        \}\
+\
+        .wine-year \{\
+            color: var(--oro);\
+            font-weight: 700;\
+            font-size: 0.9rem;\
+            margin-bottom: 1rem;\
+            display: block;\
+        \}\
+\
+        .wine-desc \{\
+            color: #666;\
+            font-size: 0.95rem;\
+            line-height: 1.6;\
+        \}\
+\
+        /* Sezione Crowdfunding */\
+        .crowd-card \{\
+            background: linear-gradient(to bottom, white, #fafafa);\
+            border: 2px solid var(--oro);\
+        \}\
+\
+        .progress-container \{\
+            margin: 1.5rem 0;\
+            background: #e0e0e0;\
+            border-radius: 25px;\
+            overflow: hidden;\
+            height: 30px;\
+            position: relative;\
+        \}\
+\
+        .progress-bar \{\
+            height: 100%;\
+            background: linear-gradient(90deg, var(--bordeaux), #9B4D5B);\
+            border-radius: 25px;\
+            transition: width 1s ease-in-out;\
+            display: flex;\
+            align-items: center;\
+            justify-content: flex-end;\
+            padding-right: 10px;\
+            color: white;\
+            font-weight: 700;\
+            font-size: 0.85rem;\
+        \}\
+\
+        .donors-list \{\
+            margin-top: 1rem;\
+            padding: 1rem;\
+            background: var(--bianco);\
+            border-radius: 8px;\
+            font-size: 0.9rem;\
+        \}\
+\
+        .donors-list strong \{\
+            color: var(--bordeaux);\
+        \}\
+\
+        /* Bottone PayPal */\
+        .paypal-btn \{\
+            display: inline-block;\
+            background: linear-gradient(135deg, #0070BA, #005EA6);\
+            color: white;\
+            padding: 12px 30px;\
+            border-radius: 25px;\
+            text-decoration: none;\
+            font-weight: 700;\
+            margin-top: 1rem;\
+            transition: transform 0.2s, box-shadow 0.2s;\
+            border: none;\
+            cursor: pointer;\
+            font-size: 1rem;\
+        \}\
+\
+        .paypal-btn:hover \{\
+            transform: scale(1.05);\
+            box-shadow: 0 5px 15px rgba(0,112,186,0.4);\
+        \}\
+\
+        /* Stato completato */\
+        .completed-badge \{\
+            display: inline-block;\
+            background: var(--oro);\
+            color: var(--bordeaux);\
+            padding: 5px 15px;\
+            border-radius: 20px;\
+            font-size: 0.85rem;\
+            font-weight: 700;\
+            margin-top: 1rem;\
+        \}\
+\
+        /* Footer */\
+        footer \{\
+            background: var(--nero);\
+            color: var(--bianco);\
+            text-align: center;\
+            padding: 3rem 2rem;\
+            margin-top: 5rem;\
+        \}\
+\
+        .footer-text \{\
+            font-family: 'Playfair Display', serif;\
+            font-size: 1.2rem;\
+            color: var(--oro);\
+        \}\
+\
+        /* Responsive */\
+        @media (max-width: 768px) \{\
+            .bio \{\
+                grid-template-columns: 1fr;\
+            \}\
+\
+            h1 \{\
+                font-size: 2rem;\
+            \}\
+\
+            .wine-grid \{\
+                grid-template-columns: 1fr;\
+            \}\
+\
+            .lang-selector \{\
+                top: 10px;\
+                right: 10px;\
+            \}\
+\
+            .lang-btn \{\
+                padding: 8px 15px;\
+                font-size: 0.8rem;\
+            \}\
+        \}\
+    </style>\
+<base target="_blank">\
+</head>\
+<body>\
+\
+    <!-- Selettore Lingua -->\
+    <div class="lang-selector">\
+        <button class="lang-btn" id="langBtn">\
+            <span id="currentLang">\uc0\u55356 \u56812 \u55356 \u56807  English</span>\
+            <span class="arrow">\uc0\u9660 </span>\
+        </button>\
+        <div class="lang-dropdown" id="langDropdown">\
+            <button class="lang-option active" id="btn-en">\
+                <span class="lang-flag">\uc0\u55356 \u56812 \u55356 \u56807 </span> English\
+            </button>\
+            <button class="lang-option" id="btn-it">\
+                <span class="lang-flag">\uc0\u55356 \u56814 \u55356 \u56825 </span> Italiano\
+            </button>\
+            <button class="lang-option" id="btn-fr">\
+                <span class="lang-flag">\uc0\u55356 \u56811 \u55356 \u56823 </span> Fran\'e7ais\
+            </button>\
+            <button class="lang-option" id="btn-de">\
+                <span class="lang-flag">\uc0\u55356 \u56809 \u55356 \u56810 </span> Deutsch\
+            </button>\
+        </div>\
+    </div>\
+\
+    <header>\
+        <h1 data-i18n="name">Giacomo Patti</h1>\
+        <p class="subtitle" data-i18n="subtitle">Sommelier & Wine Enthusiast</p>\
+    </header>\
+\
+    <nav>\
+        <ul>\
+            <li><a href="#biography" data-i18n="nav_bio">Biography</a></li>\
+            <li><a href="#tastings" data-i18n="nav_tastings">My Tastings</a></li>\
+            <li><a href="#crowdfunding" data-i18n="nav_crowd">Rare Labels to Discover</a></li>\
+            <li><a href="#thankyou" data-i18n="nav_thanks">Thank You</a></li>\
+        </ul>\
+    </nav>\
+\
+    <!-- BIOGRAPHY -->\
+    <section id="biography" class="container">\
+        <h2 class="section-title" data-i18n="title_bio">My Story</h2>\
+        <div class="bio">\
+            <img src="giacomo.jpg" alt="Your portrait" class="bio-img">\
+            <div class="bio-text">\
+                <p data-i18n="bio_text1">If you are looking for me, you will probably find me with my nose in a glass or traveling to a new winery. For over 15 years I have dedicated my life to the study of wine. I have never been content to just read labels: I have traveled the world to touch the vineyards firsthand, listen to the stories of the producers and breathe the true wine culture. I currently work in a wonderful Wine Resort in Sicily, where I transform my passion into unique sensory journeys for our guests. My thirst for discovery is infinite: there is always a new wine to discover, a new story to unveil and, above all, a great glass to share.</p>\
+                <p style="margin-top: 1rem;" data-i18n="bio_text2">My mission is to transform every sip into an unforgettable sensory journey.</p>\
+            </div>\
+        </div>\
+    </section>\
+\
+    <!-- PAST TASTINGS -->\
+    <section id="tastings" class="container">\
+        <h2 class="section-title" data-i18n="title_tastings">Wines I Have Tasted</h2>\
+        <div class="wine-grid">\
+\
+            <div class="wine-card">\
+                <img src="img/bottle1.jpg" alt="Wine Name" class="wine-img">\
+                <div class="wine-content">\
+                    <h3 class="wine-title">Barolo Riserva 2015</h3>\
+                    <span class="wine-year">Winery [Name] - Piedmont</span>\
+                    <p class="wine-desc" data-i18n="desc1">\
+                        Notes of cherry in spirit, tobacco, and wet earth. Velvety tannins \
+                        and a lingering finish of licorice. Perfect pairing with Barolo braised beef.\
+                    </p>\
+                </div>\
+            </div>\
+\
+            <div class="wine-card">\
+                <img src="img/bottle2.jpg" alt="Wine Name" class="wine-img">\
+                <div class="wine-content">\
+                    <h3 class="wine-title">Brunello di Montalcino 2016</h3>\
+                    <span class="wine-year">Winery [Name] - Tuscany</span>\
+                    <p class="wine-desc" data-i18n="desc2">\
+                        Intense ruby with garnet reflections. The nose reveals ripe red fruit, \
+                        sweet spices, and a touch of vanilla. Imposing yet elegant structure.\
+                    </p>\
+                </div>\
+            </div>\
+\
+        </div>\
+    </section>\
+\
+    <!-- CROWDFUNDING -->\
+    <section id="crowdfunding" class="container">\
+        <h2 class="section-title" data-i18n="title_crowd">Rare Labels to Discover</h2>\
+        <p style="text-align: center; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;" data-i18n="crowd_intro">\
+            Help me expand my knowledge! These rare labels are my next goal. \
+            Every donation, no matter how small, brings me closer to the bottle. Once the goal is reached, \
+            I will taste it and publish the review with thanks to all supporters.\
+        </p>\
+\
+        <div class="wine-grid">\
+\
+            <div class="wine-card crowd-card">\
+                <img src="img/crowd1.jpg" alt="Rare label" class="wine-img">\
+                <div class="wine-content">\
+                    <h3 class="wine-title">Sassicaia 1985</h3>\
+                    <span class="wine-year">Tenuta San Guido - Tuscany</span>\
+                    <p class="wine-desc" data-i18n="crowd1_desc">\
+                        A legend of Italian wine. Goal: acquire a bottle for a historic tasting.\
+                    </p>\
+\
+                    <div style="margin: 1rem 0;">\
+                        <strong data-i18n="goal">Goal:</strong> \'80450.00<br>\
+                        <strong data-i18n="raised">Raised:</strong> \'80180.00\
+                    </div>\
+\
+                    <div class="progress-container">\
+                        <div class="progress-bar" style="width: 40%;">40%</div>\
+                    </div>\
+\
+                    <div class="donors-list">\
+                        <strong data-i18n="supporters">Supporters:</strong> Marco B. (\'8050), Laura R. (\'8030), Giovanni T. (\'80100)\
+                    </div>\
+\
+                    <a href="https://www.paypal.me/jack1193/Sassicaia1985" class="paypal-btn" target="_blank" data-i18n="donate">\
+                        \uc0\u55358 \u56605  Donate with PayPal\
+                    </a>\
+                </div>\
+            </div>\
+\
+            <div class="wine-card crowd-card">\
+                <img src="img/crowd2.jpg" alt="Rare label" class="wine-img">\
+                <div class="wine-content">\
+                    <h3 class="wine-title">Masseto 2010</h3>\
+                    <span class="wine-year">Tenuta dell'Ornellaia - Tuscany</span>\
+                    <p class="wine-desc" data-i18n="crowd2_desc">\
+                        The king of Italian Merlot. A wine every sommelier dreams of tasting at least once.\
+                    </p>\
+\
+                    <div style="margin: 1rem 0;">\
+                        <strong data-i18n="goal">Goal:</strong> \'80380.00<br>\
+                        <strong data-i18n="raised">Raised:</strong> \'8095.00\
+                    </div>\
+\
+                    <div class="progress-container">\
+                        <div class="progress-bar" style="width: 25%;">25%</div>\
+                    </div>\
+\
+                    <div class="donors-list">\
+                        <strong data-i18n="supporters">Supporters:</strong> Anna M. (\'8045), Paolo S. (\'8050)\
+                    </div>\
+\
+                    <a href="https://www.paypal.me/jack1193/Masseto2010" class="paypal-btn" target="_blank" data-i18n="donate">\
+                        \uc0\u55358 \u56605  Donate with PayPal\
+                    </a>\
+                </div>\
+            </div>\
+\
+            <div class="wine-card crowd-card" style="border-color: #4CAF50;">\
+                <img src="img/completed1.jpg" alt="Reached bottle" class="wine-img">\
+                <div class="wine-content">\
+                    <h3 class="wine-title">Solaia 2015</h3>\
+                    <span class="wine-year">Antinori - Tuscany</span>\
+                    <p class="wine-desc">\
+                        <em>"Complex and layered. Black fruit, dark chocolate, and balsamic notes. \
+                        A masterpiece of balance."</em>\
+                    </p>\
+\
+                    <span class="completed-badge" data-i18n="completed">\uc0\u10003  Goal Reached!</span>\
+\
+                    <div class="donors-list" style="background: #e8f5e9;">\
+                        <strong data-i18n="thanks_to">Thanks to:</strong> Roberto L. (\'8080), Chiara P. (\'8060), Davide F. (\'8040), \
+                        Elena G. (\'8050), Simone A. (\'8030)\
+                    </div>\
+\
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #4CAF50; font-weight: 700;" data-i18n="tasted_date">\
+                        Tasted on 03/15/2024 - Review published\
+                    </p>\
+                </div>\
+            </div>\
+\
+        </div>\
+    </section>\
+\
+    <!-- THANK YOU -->\
+    <section id="thankyou" class="container">\
+        <h2 class="section-title" data-i18n="title_thanks">Bottles Reached</h2>\
+        <p style="text-align: center; margin-bottom: 2rem;" data-i18n="thanks_intro">\
+            These labels were made possible thanks to your generosity. \
+            Here are the reviews and acknowledgments.\
+        </p>\
+\
+        <div class="wine-grid">\
+        </div>\
+    </section>\
+\
+    <footer>\
+        <p class="footer-text">"Wine is the poetry of the earth" \'97 Mario Soldati</p>\
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;" data-i18n="footer">\
+            \'a9 2024 Giacomo Patti - Sommelier | Contact: giacomo.patti@email.com\
+        </p>\
+    </footer>\
+\
+    <!-- Script Traduzione -->\
+    <script>\
+        // Dizionario traduzioni\
+        var translations = \{\
+            en: \{\
+                name: "Giacomo Patti",\
+                subtitle: "Sommelier & Wine Enthusiast",\
+                nav_bio: "Biography",\
+                nav_tastings: "My Tastings",\
+                nav_crowd: "Rare Labels to Discover",\
+                nav_thanks: "Thank You",\
+                title_bio: "My Story",\
+                bio_text1: "If you are looking for me, you will probably find me with my nose in a glass or traveling to a new winery. For over 15 years I have dedicated my life to the study of wine. I have never been content to just read labels: I have traveled the world to touch the vineyards firsthand, listen to the stories of the producers and breathe the true wine culture. I currently work in a wonderful Wine Resort in Sicily, where I transform my passion into unique sensory journeys for our guests. My thirst for discovery is infinite: there is always a new wine to discover, a new story to unveil and, above all, a great glass to share.",\
+                bio_text2: "My mission is to transform every sip into an unforgettable sensory journey.",\
+                title_tastings: "Wines I Have Tasted",\
+                desc1: "Notes of cherry in spirit, tobacco, and wet earth. Velvety tannins and a lingering finish of licorice. Perfect pairing with Barolo braised beef.",\
+                desc2: "Intense ruby with garnet reflections. The nose reveals ripe red fruit, sweet spices, and a touch of vanilla. Imposing yet elegant structure.",\
+                title_crowd: "Rare Labels to Discover",\
+                crowd_intro: "Help me expand my knowledge! These rare labels are my next goal. Every donation, no matter how small, brings me closer to the bottle. Once the goal is reached, I will taste it and publish the review with thanks to all supporters.",\
+                crowd1_desc: "A legend of Italian wine. Goal: acquire a bottle for a historic tasting.",\
+                crowd2_desc: "The king of Italian Merlot. A wine every sommelier dreams of tasting at least once.",\
+                goal: "Goal:",\
+                raised: "Raised:",\
+                supporters: "Supporters:",\
+                donate: "\uc0\u55358 \u56605  Donate with PayPal",\
+                completed: "\uc0\u10003  Goal Reached!",\
+                thanks_to: "Thanks to:",\
+                tasted_date: "Tasted on 03/15/2024 - Review published",\
+                title_thanks: "Bottles Reached",\
+                thanks_intro: "These labels were made possible thanks to your generosity. Here are the reviews and acknowledgments.",\
+                footer: "\'a9 2024 Giacomo Patti - Sommelier | Contact: giacomo.patti@email.com"\
+            \},\
+            it: \{\
+                name: "Giacomo Patti",\
+                subtitle: "Sommelier & Appassionato di Vini",\
+                nav_bio: "Biografia",\
+                nav_tastings: "Le Mie Degustazioni",\
+                nav_crowd: "Etichette da Scoprire",\
+                nav_thanks: "Ringraziamenti",\
+                title_bio: "La Mia Storia",\
+                bio_text1: "Se mi cercate, probabilmente mi troverete con il naso in un calice o in viaggio verso una nuova cantina. Da oltre 15 anni dedico la mia vita allo studio del vino. Non mi sono mai accontentato di leggere le etichette: ho viaggiato per il mondo per toccare con mano le vigne, ascoltare le storie dei produttori e respirare la vera cultura enologica. Attualmente lavoro in un meraviglioso Wine Resort in Sicilia, dove trasformo la mia passione in percorsi sensoriali unici per i nostri ospiti. La mia sete di scoperta \'e8 infinita: c'\'e8 sempre un nuovo vino da scovare, una nuova storia da svelare e, soprattutto, un grande calice da condividere.",\
+                bio_text2: "La mia missione \'e8 trasformare ogni sorso in un viaggio sensoriale indimenticabile.",\
+                title_tastings: "Vini che Ho Degustato",\
+                desc1: "Note di ciliegia sotto spirito, tabacco e terra bagnata. Tannini vellutati e un finale persistente di liquirizia. Abbinamento perfetto con brasato al Barolo.",\
+                desc2: "Rubino intenso con riflessi granati. Al naso emerge frutta rossa matura, spezie dolci e un tocco di vaniglia. Struttura imponente ma elegante.",\
+                title_crowd: "Etichette da Scoprire",\
+                crowd_intro: "Aiutami ad ampliare la mia conoscenza! Queste etichette introvabili sono il mio prossimo obiettivo. Ogni donazione, anche minima, mi avvicina alla bottiglia. Una volta raggiunto l'obiettivo, la deguster\'f2 e pubblicher\'f2 la recensione con i ringraziamenti a tutti i sostenitori.",\
+                crowd1_desc: "Una leggenda del vino italiano. Obiettivo: acquisire una bottiglia per una degustazione storica.",\
+                crowd2_desc: "Il re del Merlot italiano. Un vino che ogni sommelier sogna di degustare almeno una volta.",\
+                goal: "Obiettivo:",\
+                raised: "Raccolto:",\
+                supporters: "Sostenitori:",\
+                donate: "\uc0\u55358 \u56605  Dona con PayPal",\
+                completed: "\uc0\u10003  Obiettivo Raggiunto!",\
+                thanks_to: "Grazie a:",\
+                tasted_date: "Degustata il 15/03/2024 - Recensione pubblicata",\
+                title_thanks: "Bottiglie Raggiunte",\
+                thanks_intro: "Queste etichette sono state possibili grazie alla vostra generosit\'e0. Ecco le recensioni e i ringraziamenti.",\
+                footer: "\'a9 2024 Giacomo Patti - Sommelier | Contatto: giacomo.patti@email.com"\
+            \},\
+            fr: \{\
+                name: "Giacomo Patti",\
+                subtitle: "Sommelier & Passionn\'e9 de Vin",\
+                nav_bio: "Biographie",\
+                nav_tastings: "Mes D\'e9gustations",\
+                nav_crowd: "\'c9tiquettes Rares \'e0 D\'e9couvrir",\
+                nav_thanks: "Remerciements",\
+                title_bio: "Mon Histoire",\
+                bio_text1: "Si vous me cherchez, vous me trouverez probablement le nez dans un verre ou en voyage vers un nouveau vignoble. Depuis plus de 15 ans, je consacre ma vie \'e0 l'\'e9tude du vin. Je ne me suis jamais content\'e9 de lire les \'e9tiquettes : j'ai voyag\'e9 dans le monde pour toucher les vignes de mes propres mains, \'e9couter les histoires des producteurs et respirer la v\'e9ritable culture \'9cnologique. Je travaille actuellement dans un magnifique Wine Resort en Sicile, o\'f9 je transforme ma passion en parcours sensoriels uniques pour nos h\'f4tes. Ma soif de d\'e9couverte est infinie : il y a toujours un nouveau vin \'e0 d\'e9couvrir, une nouvelle histoire \'e0 d\'e9voiler et, surtout, une grande coupe \'e0 partager.",\
+                bio_text2: "Ma mission est de transformer chaque gorg\'e9e en un voyage sensoriel inoubliable.",\
+                title_tastings: "Vins que J'ai D\'e9gust\'e9s",\
+                desc1: "Notes de cerise \'e0 l'eau-de-vie, tabac et terre humide. Tanins velout\'e9s et une finale persistante de r\'e9glisse. Accord parfait avec le b\'9cuf brais\'e9 au Barolo.",\
+                desc2: "Rubis intense avec des reflets grenat. Le nez r\'e9v\'e8le des fruits rouges m\'fbrs, des \'e9pices douces et une touche de vanille. Structure imposante mais \'e9l\'e9gante.",\
+                title_crowd: "\'c9tiquettes Rares \'e0 D\'e9couvrir",\
+                crowd_intro: "Aidez-moi \'e0 \'e9largir mes connaissances! Ces \'e9tiquettes rares sont mon prochain objectif. Chaque don, m\'eame minime, me rapproche de la bouteille. Une fois l'objectif atteint, je la d\'e9gusterai et publierai la critique avec des remerciements \'e0 tous les soutiens.",\
+                crowd1_desc: "Une l\'e9gende du vin italien. Objectif: acqu\'e9rir une bouteille pour une d\'e9gustation historique.",\
+                crowd2_desc: "Le roi du Merlot italien. Un vin dont chaque sommelier r\'eave de go\'fbter au moins une fois.",\
+                goal: "Objectif:",\
+                raised: "Collect\'e9:",\
+                supporters: "Soutiens:",\
+                donate: "\uc0\u55358 \u56605  Faire un Don PayPal",\
+                completed: "\uc0\u10003  Objectif Atteint!",\
+                thanks_to: "Merci \'e0:",\
+                tasted_date: "D\'e9gust\'e9 le 15/03/2024 - Critique publi\'e9e",\
+                title_thanks: "Bouteilles Atteintes",\
+                thanks_intro: "Ces \'e9tiquettes ont \'e9t\'e9 rendues possibles gr\'e2ce \'e0 votre g\'e9n\'e9rosit\'e9. Voici les critiques et les remerciements.",\
+                footer: "\'a9 2024 Giacomo Patti - Sommelier | Contact: giacomo.patti@email.com"\
+            \},\
+            de: \{\
+                name: "Giacomo Patti",\
+                subtitle: "Sommelier & Weinliebhaber",\
+                nav_bio: "Biografie",\
+                nav_tastings: "Meine Verkostungen",\
+                nav_crowd: "Seltene Etiketten zu Entdecken",\
+                nav_thanks: "Dankesch\'f6n",\
+                title_bio: "Meine Geschichte",\
+                bio_text1: "Wenn Sie mich suchen, finden Sie mich wahrscheinlich mit der Nase in einem Glas oder auf dem Weg zu einem neuen Weingut. Seit \'fcber 15 Jahren widme ich mein Leben dem Studium des Weins. Ich habe mich nie damit zufriedengegeben, nur Etiketten zu lesen: Ich bin um die Welt gereist, um die Reben mit eigenen H\'e4nden zu ber\'fchren, die Geschichten der Produzenten zu h\'f6ren und die wahre Weinkultur zu atmen. Derzeit arbeite ich in einem wunderbaren Wine Resort auf Sizilien, wo ich meine Leidenschaft in einzigartige sensorische Reisen f\'fcr unsere G\'e4ste verwandle. Mein Durst nach Entdeckung ist unendlich: Es gibt immer einen neuen Wein zu entdecken, eine neue Geschichte zu enth\'fcllen und vor allem ein gro\'dfes Glas zu teilen.",\
+                bio_text2: "Meine Mission ist es, jeden Schluck in eine unvergessliche sensorische Reise zu verwandeln.",\
+                title_tastings: "Weine, die Ich Verkostet Habe",\
+                desc1: "Noten von Kirschgeist, Tabak und feuchter Erde. Samtige Tannine und ein anhaltendes Finish von Lakritz. Perfekte Begleitung zu Barolo-Schmorbraten.",\
+                desc2: "Intensives Rubinrot mit Granatreflexen. Die Nase offenbart reife rote Fr\'fcchte, s\'fc\'dfe Gew\'fcrze und einen Hauch Vanille. Imposante, aber elegante Struktur.",\
+                title_crowd: "Seltene Etiketten zu Entdecken",\
+                crowd_intro: "Helfen Sie mir, mein Wissen zu erweitern! Diese seltenen Etiketten sind mein n\'e4chstes Ziel. Jede Spende, egal wie klein, bringt mich der Flasche n\'e4her. Sobald das Ziel erreicht ist, werde ich sie verkosten und die Kritik mit Dank an alle Unterst\'fctzer ver\'f6ffentlichen.",\
+                crowd1_desc: "Eine Legende des italienischen Weins. Ziel: eine Flasche f\'fcr eine historische Verkostung erwerben.",\
+                crowd2_desc: "Der K\'f6nig des italienischen Merlot. Ein Wein, von dem jeder Sommelier tr\'e4umt, ihn mindestens einmal zu verkosten.",\
+                goal: "Ziel:",\
+                raised: "Gesammelt:",\
+                supporters: "Unterst\'fctzer:",\
+                donate: "\uc0\u55358 \u56605  Mit PayPal Spenden",\
+                completed: "\uc0\u10003  Ziel Erreicht!",\
+                thanks_to: "Danke an:",\
+                tasted_date: "Verkostet am 15.03.2024 - Kritik ver\'f6ffentlicht",\
+                title_thanks: "Erreichte Flaschen",\
+                thanks_intro: "Diese Etiketten wurden dank Ihrer Gro\'dfz\'fcgigkeit m\'f6glich. Hier sind die Kritiken und Danksagungen.",\
+                footer: "\'a9 2024 Giacomo Patti - Sommelier | Kontakt: giacomo.patti@email.com"\
+            \}\
+        \};\
+\
+        // Lingua corrente\
+        var currentLanguage = 'en';\
+        var menuOpen = false;\
+\
+        // Riferimenti agli elementi\
+        var langBtn = document.getElementById('langBtn');\
+        var langDropdown = document.getElementById('langDropdown');\
+        var currentLangSpan = document.getElementById('currentLang');\
+\
+        // Apri/chiudi menu\
+        function toggleMenu() \{\
+            menuOpen = !menuOpen;\
+            if (menuOpen) \{\
+                langDropdown.style.display = 'block';\
+                langBtn.classList.add('active');\
+            \} else \{\
+                langDropdown.style.display = 'none';\
+                langBtn.classList.remove('active');\
+            \}\
+        \}\
+\
+        // Aggiungi event listener al bottone principale\
+        langBtn.addEventListener('click', function(e) \{\
+            e.preventDefault();\
+            e.stopPropagation();\
+            toggleMenu();\
+        \});\
+\
+        // Cambia lingua\
+        function changeLanguage(lang, label) \{\
+            currentLanguage = lang;\
+            currentLangSpan.innerHTML = label;\
+\
+            // Aggiorna classe active\
+            document.getElementById('btn-en').classList.remove('active');\
+            document.getElementById('btn-it').classList.remove('active');\
+            document.getElementById('btn-fr').classList.remove('active');\
+            document.getElementById('btn-de').classList.remove('active');\
+\
+            document.getElementById('btn-' + lang).classList.add('active');\
+\
+            // Chiudi menu\
+            menuOpen = false;\
+            langDropdown.style.display = 'none';\
+            langBtn.classList.remove('active');\
+\
+            // Applica traduzioni\
+            applyTranslations();\
+        \}\
+\
+        // Applica traduzioni\
+        function applyTranslations() \{\
+            var t = translations[currentLanguage];\
+            var elements = document.querySelectorAll('[data-i18n]');\
+            for (var i = 0; i < elements.length; i++) \{\
+                var key = elements[i].getAttribute('data-i18n');\
+                if (t[key]) \{\
+                    elements[i].innerHTML = t[key];\
+                \}\
+            \}\
+        \}\
+\
+        // Event listener per ogni bottone lingua\
+        document.getElementById('btn-en').addEventListener('click', function(e) \{\
+            e.preventDefault();\
+            e.stopPropagation();\
+            changeLanguage('en', '\uc0\u55356 \u56812 \u55356 \u56807  English');\
+        \});\
+\
+        document.getElementById('btn-it').addEventListener('click', function(e) \{\
+            e.preventDefault();\
+            e.stopPropagation();\
+            changeLanguage('it', '\uc0\u55356 \u56814 \u55356 \u56825  Italiano');\
+        \});\
+\
+        document.getElementById('btn-fr').addEventListener('click', function(e) \{\
+            e.preventDefault();\
+            e.stopPropagation();\
+            changeLanguage('fr', '\uc0\u55356 \u56811 \u55356 \u56823  Fran\'e7ais');\
+        \});\
+\
+        document.getElementById('btn-de').addEventListener('click', function(e) \{\
+            e.preventDefault();\
+            e.stopPropagation();\
+            changeLanguage('de', '\uc0\u55356 \u56809 \u55356 \u56810  Deutsch');\
+        \});\
+\
+        // Chiudi menu cliccando fuori\
+        document.addEventListener('click', function(e) \{\
+            if (menuOpen) \{\
+                var selector = document.querySelector('.lang-selector');\
+                if (!selector.contains(e.target)) \{\
+                    menuOpen = false;\
+                    langDropdown.style.display = 'none';\
+                    langBtn.classList.remove('active');\
+                \}\
+            \}\
+        \});\
+    </script>\
+\
+</body>\
+</html>}

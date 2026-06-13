@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* Selettore Lingua - COMPATTO */
+        /* Selettore Lingua */
         .lang-selector {
             position: fixed;
             top: 20px;
@@ -367,12 +367,12 @@
             color: var(--oro);
         }
 
-        /* ========== CAROSELLO WINE NOTES ========== */
+        /* ========== CAROSELLO WINE NOTES - NUOVA VERSIONE ========== */
         .carousel-section {
             padding: 2rem 0;
         }
 
-        .carousel-wrapper {
+        .carousel-container {
             position: relative;
             max-width: 600px;
             margin: 0 auto;
@@ -380,10 +380,9 @@
             border-radius: 20px;
             box-shadow: 0 15px 50px rgba(0,0,0,0.2);
             background: var(--nero);
-            touch-action: pan-y;
         }
 
-        .carousel-track {
+        .carousel-slides {
             display: flex;
             transition: transform 0.4s ease-out;
             will-change: transform;
@@ -391,7 +390,7 @@
 
         .carousel-slide {
             min-width: 100%;
-            flex-shrink: 0;
+            flex: 0 0 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -524,8 +523,8 @@
                 font-size: 0.8rem;
             }
 
-            /* Carosello mobile - immagini adattate */
-            .carousel-wrapper {
+            /* Carosello mobile */
+            .carousel-container {
                 max-width: 100%;
                 border-radius: 12px;
                 margin: 0 10px;
@@ -533,8 +532,8 @@
 
             .carousel-slide img {
                 height: auto;
-                max-height: 65vh;
-                min-height: 280px;
+                max-height: 60vh;
+                min-height: 250px;
                 object-fit: contain;
             }
 
@@ -572,7 +571,7 @@
 
         @media (max-width: 480px) {
             .carousel-slide img {
-                min-height: 240px;
+                min-height: 220px;
             }
 
             .carousel-arrow {
@@ -587,7 +586,7 @@
 </head>
 <body>
 
-    <!-- Selettore Lingua - COMPATTO -->
+    <!-- Selettore Lingua -->
     <div class="lang-selector">
         <button class="lang-btn" id="langBtn">
             <span id="currentLang">🇬🇧 EN</span>
@@ -639,11 +638,11 @@
     <section id="tastings" class="container carousel-section">
         <h2 class="section-title" data-i18n="title_tastings">Wine Notes</h2>
 
-        <div class="carousel-wrapper" id="carouselWrapper">
+        <div class="carousel-container" id="carouselContainer">
             <button class="carousel-arrow prev" onclick="moveCarousel(-1)" aria-label="Previous">❮</button>
             <button class="carousel-arrow next" onclick="moveCarousel(1)" aria-label="Next">❯</button>
 
-            <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slides" id="carouselSlides">
                 <div class="carousel-slide"><img src="wine1.jpg" alt="Wine Note 1" draggable="false"></div>
                 <div class="carousel-slide"><img src="wine2.jpg" alt="Wine Note 2" draggable="false"></div>
                 <div class="carousel-slide"><img src="wine3.jpg" alt="Wine Note 3" draggable="false"></div>
@@ -965,15 +964,15 @@
         });
     </script>
 
-    <!-- Script Carosello - VERSIONE CORRETTA MOBILE -->
+    <!-- Script Carosello - VERSIONE DEFINITIVA -->
     <script>
         (function() {
             var currentSlide = 0;
             var totalSlides = 16;
-            var track = document.getElementById('carouselTrack');
+            var slidesEl = document.getElementById('carouselSlides');
+            var containerEl = document.getElementById('carouselContainer');
             var dotsContainer = document.getElementById('carouselDots');
             var counterEl = document.getElementById('slideCounter');
-            var wrapper = document.getElementById('carouselWrapper');
 
             var startX = 0;
             var startY = 0;
@@ -981,7 +980,7 @@
             var isDragging = false;
             var isHorizontal = false;
             var dragOffset = 0;
-            var slideWidth = 0;
+            var containerWidth = 0;
 
             // Crea i puntini
             for (var i = 0; i < totalSlides; i++) {
@@ -993,11 +992,17 @@
                 dotsContainer.appendChild(dot);
             }
 
-            function updateSlideWidth() {
-                slideWidth = wrapper.offsetWidth;
+            function updateContainerWidth() {
+                containerWidth = containerEl.getBoundingClientRect().width;
             }
-            updateSlideWidth();
-            window.addEventListener('resize', updateSlideWidth);
+
+            // Calcola larghezza subito e dopo un breve delay per sicurezza
+            updateContainerWidth();
+            setTimeout(updateContainerWidth, 100);
+            window.addEventListener('resize', function() {
+                updateContainerWidth();
+                goToSlide(currentSlide);
+            });
 
             function updateCounter() {
                 counterEl.textContent = (currentSlide + 1) + ' / ' + totalSlides;
@@ -1007,17 +1012,13 @@
                 currentSlide += direction;
                 if (currentSlide < 0) currentSlide = totalSlides - 1;
                 if (currentSlide >= totalSlides) currentSlide = 0;
-                updateCarousel();
+                goToSlide(currentSlide);
             }
 
             function goToSlide(index) {
                 currentSlide = index;
-                updateCarousel();
-            }
-
-            function updateCarousel() {
-                track.style.transition = 'transform 0.4s ease-out';
-                track.style.transform = 'translateX(-' + (currentSlide * slideWidth) + 'px)';
+                slidesEl.style.transition = 'transform 0.4s ease-out';
+                slidesEl.style.transform = 'translateX(-' + (currentSlide * containerWidth) + 'px)';
 
                 var dots = document.querySelectorAll('.carousel-dot');
                 for (var i = 0; i < dots.length; i++) {
@@ -1028,21 +1029,22 @@
             }
 
             function setTransform(offset) {
-                track.style.transition = 'none';
-                track.style.transform = 'translateX(' + (-currentSlide * slideWidth - offset) + 'px)';
+                slidesEl.style.transition = 'none';
+                slidesEl.style.transform = 'translateX(' + (-currentSlide * containerWidth - offset) + 'px)';
             }
 
             // ========== TOUCH EVENTS (MOBILE) ==========
-            wrapper.addEventListener('touchstart', function(e) {
+            containerEl.addEventListener('touchstart', function(e) {
                 var touch = e.touches[0];
                 startX = touch.clientX;
                 startY = touch.clientY;
                 isDragging = true;
                 isHorizontal = false;
                 dragOffset = 0;
+                updateContainerWidth();
             }, { passive: true });
 
-            wrapper.addEventListener('touchmove', function(e) {
+            containerEl.addEventListener('touchmove', function(e) {
                 if (!isDragging) return;
 
                 var touch = e.touches[0];
@@ -1050,18 +1052,23 @@
                 var diffX = startX - currentX;
                 var diffY = startY - touch.clientY;
 
-                // Determina se lo swipe è orizzontale
-                if (!isHorizontal && Math.abs(diffX) > Math.abs(diffY)) {
-                    isHorizontal = true;
+                if (!isHorizontal) {
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+                        isHorizontal = true;
+                    } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 10) {
+                        isDragging = false;
+                        return;
+                    }
                 }
 
                 if (isHorizontal) {
+                    e.preventDefault();
                     dragOffset = diffX;
                     setTransform(dragOffset);
                 }
-            }, { passive: true });
+            }, { passive: false });
 
-            wrapper.addEventListener('touchend', function(e) {
+            containerEl.addEventListener('touchend', function(e) {
                 if (!isDragging) return;
                 isDragging = false;
 
@@ -1072,33 +1079,34 @@
                         moveCarousel(-1);
                     }
                 } else {
-                    updateCarousel();
+                    goToSlide(currentSlide);
                 }
             }, { passive: true });
 
-            wrapper.addEventListener('touchcancel', function(e) {
+            containerEl.addEventListener('touchcancel', function(e) {
                 if (isDragging) {
                     isDragging = false;
-                    updateCarousel();
+                    goToSlide(currentSlide);
                 }
             }, { passive: true });
 
             // ========== MOUSE EVENTS (DESKTOP) ==========
-            wrapper.addEventListener('mousedown', function(e) {
+            containerEl.addEventListener('mousedown', function(e) {
                 startX = e.clientX;
                 isDragging = true;
                 dragOffset = 0;
+                updateContainerWidth();
                 e.preventDefault();
             });
 
-            wrapper.addEventListener('mousemove', function(e) {
+            containerEl.addEventListener('mousemove', function(e) {
                 if (!isDragging) return;
                 currentX = e.clientX;
                 dragOffset = startX - currentX;
                 setTransform(dragOffset);
             });
 
-            wrapper.addEventListener('mouseup', function(e) {
+            containerEl.addEventListener('mouseup', function(e) {
                 if (!isDragging) return;
                 isDragging = false;
 
@@ -1109,14 +1117,14 @@
                         moveCarousel(-1);
                     }
                 } else {
-                    updateCarousel();
+                    goToSlide(currentSlide);
                 }
             });
 
-            wrapper.addEventListener('mouseleave', function() {
+            containerEl.addEventListener('mouseleave', function() {
                 if (isDragging) {
                     isDragging = false;
-                    updateCarousel();
+                    goToSlide(currentSlide);
                 }
             });
 
@@ -1124,12 +1132,6 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'ArrowLeft') moveCarousel(-1);
                 if (e.key === 'ArrowRight') moveCarousel(1);
-            });
-
-            // Auto-snap dopo resize
-            window.addEventListener('resize', function() {
-                updateSlideWidth();
-                updateCarousel();
             });
 
         })();

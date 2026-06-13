@@ -26,7 +26,7 @@
             line-height: 1.6;
         }
 
-        /* Selettore Lingua */
+        /* Selettore Lingua - COMPATTO */
         .lang-selector {
             position: fixed;
             top: 20px;
@@ -38,15 +38,15 @@
             background: white;
             border: 2px solid var(--oro);
             border-radius: 30px;
-            padding: 10px 20px;
+            padding: 8px 14px;
             font-family: 'Lato', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--bordeaux);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
@@ -61,7 +61,7 @@
 
         .lang-btn .arrow {
             transition: transform 0.3s ease;
-            font-size: 0.7rem;
+            font-size: 0.6rem;
         }
 
         .lang-btn.active .arrow {
@@ -70,13 +70,13 @@
 
         .lang-dropdown {
             position: absolute;
-            top: 55px;
+            top: 48px;
             right: 0;
             background: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             overflow: hidden;
-            min-width: 180px;
+            min-width: 140px;
             display: none;
         }
 
@@ -85,19 +85,20 @@
         }
 
         .lang-option {
-            padding: 12px 20px;
+            padding: 10px 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.2s ease;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--nero);
             background: white;
             border: none;
             width: 100%;
             text-align: left;
             font-family: 'Lato', sans-serif;
+            font-weight: 700;
         }
 
         .lang-option:hover {
@@ -111,7 +112,12 @@
         }
 
         .lang-flag {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .lang-code {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
 
         /* Header */
@@ -508,7 +514,16 @@
             }
 
             .lang-btn {
-                padding: 8px 15px;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+
+            .lang-dropdown {
+                min-width: 120px;
+            }
+
+            .lang-option {
+                padding: 8px 12px;
                 font-size: 0.8rem;
             }
 
@@ -576,24 +591,24 @@
 </head>
 <body>
 
-    <!-- Selettore Lingua -->
+    <!-- Selettore Lingua - COMPATTO -->
     <div class="lang-selector">
         <button class="lang-btn" id="langBtn">
-            <span id="currentLang">🇬🇧 English</span>
+            <span id="currentLang">🇬🇧 EN</span>
             <span class="arrow">▼</span>
         </button>
         <div class="lang-dropdown" id="langDropdown">
             <button class="lang-option active" id="btn-en">
-                <span class="lang-flag">🇬🇧</span> English
+                <span class="lang-flag">🇬🇧</span> <span class="lang-code">EN</span>
             </button>
             <button class="lang-option" id="btn-it">
-                <span class="lang-flag">🇮🇹</span> Italiano
+                <span class="lang-flag">🇮🇹</span> <span class="lang-code">IT</span>
             </button>
             <button class="lang-option" id="btn-fr">
-                <span class="lang-flag">🇫🇷</span> Français
+                <span class="lang-flag">🇫🇷</span> <span class="lang-code">FR</span>
             </button>
             <button class="lang-option" id="btn-de">
-                <span class="lang-flag">🇩🇪</span> Deutsch
+                <span class="lang-flag">🇩🇪</span> <span class="lang-code">DE</span>
             </button>
         </div>
     </div>
@@ -927,19 +942,19 @@
 
         document.getElementById('btn-en').addEventListener('click', function(e) {
             e.preventDefault(); e.stopPropagation();
-            changeLanguage('en', '🇬🇧 English');
+            changeLanguage('en', '🇬🇧 EN');
         });
         document.getElementById('btn-it').addEventListener('click', function(e) {
             e.preventDefault(); e.stopPropagation();
-            changeLanguage('it', '🇮🇹 Italiano');
+            changeLanguage('it', '🇮🇹 IT');
         });
         document.getElementById('btn-fr').addEventListener('click', function(e) {
             e.preventDefault(); e.stopPropagation();
-            changeLanguage('fr', '🇫🇷 Français');
+            changeLanguage('fr', '🇫🇷 FR');
         });
         document.getElementById('btn-de').addEventListener('click', function(e) {
             e.preventDefault(); e.stopPropagation();
-            changeLanguage('de', '🇩🇪 Deutsch');
+            changeLanguage('de', '🇩🇪 DE');
         });
 
         document.addEventListener('click', function(e) {

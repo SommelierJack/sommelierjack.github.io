@@ -367,7 +367,7 @@
             color: var(--oro);
         }
 
-        /* ========== CAROSELLO WINE NOTES - NUOVA VERSIONE ========== */
+        /* ========== CAROSELLO WINE NOTES ========== */
         .carousel-section {
             padding: 2rem 0;
         }
@@ -407,7 +407,7 @@
             user-select: none;
         }
 
-        /* Frecce navigazione */
+        /* Frecce navigazione - SOLO DESKTOP */
         .carousel-arrow {
             position: absolute;
             top: 50%;
@@ -537,18 +537,9 @@
                 object-fit: contain;
             }
 
+            /* FRECCE NASCOSTE SU MOBILE */
             .carousel-arrow {
-                width: 40px;
-                height: 40px;
-                font-size: 1.1rem;
-            }
-
-            .carousel-arrow.prev {
-                left: 8px;
-            }
-
-            .carousel-arrow.next {
-                right: 8px;
+                display: none;
             }
 
             .carousel-dots {
@@ -572,12 +563,6 @@
         @media (max-width: 480px) {
             .carousel-slide img {
                 min-height: 220px;
-            }
-
-            .carousel-arrow {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
             }
         }
     </style>
@@ -964,7 +949,7 @@
         });
     </script>
 
-    <!-- Script Carosello - VERSIONE DEFINITIVA -->
+    <!-- Script Carosello -->
     <script>
         (function() {
             var currentSlide = 0;
@@ -996,7 +981,6 @@
                 containerWidth = containerEl.getBoundingClientRect().width;
             }
 
-            // Calcola larghezza subito e dopo un breve delay per sicurezza
             updateContainerWidth();
             setTimeout(updateContainerWidth, 100);
             window.addEventListener('resize', function() {
@@ -1033,7 +1017,7 @@
                 slidesEl.style.transform = 'translateX(' + (-currentSlide * containerWidth - offset) + 'px)';
             }
 
-            // ========== TOUCH EVENTS (MOBILE) ==========
+            // Touch events
             containerEl.addEventListener('touchstart', function(e) {
                 var touch = e.touches[0];
                 startX = touch.clientX;
@@ -1090,7 +1074,7 @@
                 }
             }, { passive: true });
 
-            // ========== MOUSE EVENTS (DESKTOP) ==========
+            // Mouse events
             containerEl.addEventListener('mousedown', function(e) {
                 startX = e.clientX;
                 isDragging = true;
@@ -1128,7 +1112,7 @@
                 }
             });
 
-            // ========== KEYBOARD NAVIGATION ==========
+            // Keyboard
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'ArrowLeft') moveCarousel(-1);
                 if (e.key === 'ArrowRight') moveCarousel(1);

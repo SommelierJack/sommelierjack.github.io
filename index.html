@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SommelierJack - Wine Enthusiast & Collector</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
@@ -17,6 +17,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -24,6 +25,7 @@
             background-color: var(--bianco);
             color: var(--nero);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* Selettore Lingua - COMPATTO */
@@ -378,21 +380,13 @@
             border-radius: 20px;
             box-shadow: 0 15px 50px rgba(0,0,0,0.2);
             background: var(--nero);
+            touch-action: pan-y;
         }
 
         .carousel-track {
             display: flex;
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: grab;
-            touch-action: pan-y;
-        }
-
-        .carousel-track:active {
-            cursor: grabbing;
-        }
-
-        .carousel-track.is-dragging {
-            transition: none;
+            transition: transform 0.4s ease-out;
+            will-change: transform;
         }
 
         .carousel-slide {
@@ -409,8 +403,9 @@
             height: 500px;
             object-fit: cover;
             display: block;
-            user-select: none;
+            pointer-events: none;
             -webkit-user-drag: none;
+            user-select: none;
         }
 
         /* Frecce navigazione */
@@ -432,6 +427,7 @@
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(4px);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .carousel-arrow:hover {
@@ -465,6 +461,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .carousel-dot:hover {
@@ -536,15 +533,15 @@
 
             .carousel-slide img {
                 height: auto;
-                max-height: 70vh;
-                min-height: 300px;
+                max-height: 65vh;
+                min-height: 280px;
                 object-fit: contain;
             }
 
             .carousel-arrow {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
             }
 
             .carousel-arrow.prev {
@@ -556,33 +553,32 @@
             }
 
             .carousel-dots {
-                padding: 12px;
-                gap: 6px;
+                padding: 15px;
+                gap: 8px;
             }
 
             .carousel-dot {
-                width: 8px;
-                height: 8px;
+                width: 10px;
+                height: 10px;
             }
 
             .slide-counter {
-                bottom: 55px;
-                right: 10px;
+                bottom: 60px;
+                right: 12px;
                 font-size: 0.75rem;
                 padding: 4px 10px;
             }
         }
 
-        /* Extra small devices */
         @media (max-width: 480px) {
             .carousel-slide img {
-                min-height: 250px;
+                min-height: 240px;
             }
 
             .carousel-arrow {
-                width: 32px;
-                height: 32px;
-                font-size: 0.9rem;
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -643,7 +639,7 @@
     <section id="tastings" class="container carousel-section">
         <h2 class="section-title" data-i18n="title_tastings">Wine Notes</h2>
 
-        <div class="carousel-wrapper">
+        <div class="carousel-wrapper" id="carouselWrapper">
             <button class="carousel-arrow prev" onclick="moveCarousel(-1)" aria-label="Previous">❮</button>
             <button class="carousel-arrow next" onclick="moveCarousel(1)" aria-label="Next">❯</button>
 
@@ -969,131 +965,174 @@
         });
     </script>
 
-    <!-- Script Carosello -->
+    <!-- Script Carosello - VERSIONE CORRETTA MOBILE -->
     <script>
-        var currentSlide = 0;
-        var totalSlides = 16;
-        var track = document.getElementById('carouselTrack');
-        var dotsContainer = document.getElementById('carouselDots');
-        var counterEl = document.getElementById('slideCounter');
-        var startX = 0;
-        var currentX = 0;
-        var isDragging = false;
-        var dragOffset = 0;
+        (function() {
+            var currentSlide = 0;
+            var totalSlides = 16;
+            var track = document.getElementById('carouselTrack');
+            var dotsContainer = document.getElementById('carouselDots');
+            var counterEl = document.getElementById('slideCounter');
+            var wrapper = document.getElementById('carouselWrapper');
 
-        // Crea i puntini
-        for (var i = 0; i < totalSlides; i++) {
-            var dot = document.createElement('span');
-            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            dot.onclick = (function(index) {
-                return function() { goToSlide(index); };
-            })(i);
-            dotsContainer.appendChild(dot);
-        }
+            var startX = 0;
+            var startY = 0;
+            var currentX = 0;
+            var isDragging = false;
+            var isHorizontal = false;
+            var dragOffset = 0;
+            var slideWidth = 0;
 
-        function updateCounter() {
-            counterEl.textContent = (currentSlide + 1) + ' / ' + totalSlides;
-        }
-
-        function moveCarousel(direction) {
-            currentSlide += direction;
-            if (currentSlide < 0) currentSlide = totalSlides - 1;
-            if (currentSlide >= totalSlides) currentSlide = 0;
-            updateCarousel();
-        }
-
-        function goToSlide(index) {
-            currentSlide = index;
-            updateCarousel();
-        }
-
-        function updateCarousel() {
-            track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-            track.classList.remove('is-dragging');
-            var dots = document.querySelectorAll('.carousel-dot');
-            for (var i = 0; i < dots.length; i++) {
-                dots[i].classList.remove('active');
+            // Crea i puntini
+            for (var i = 0; i < totalSlides; i++) {
+                var dot = document.createElement('span');
+                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', (function(index) {
+                    return function() { goToSlide(index); };
+                })(i));
+                dotsContainer.appendChild(dot);
             }
-            dots[currentSlide].classList.add('active');
-            updateCounter();
-        }
 
-        // Touch events per swipe su mobile
-        track.addEventListener('touchstart', function(e) {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-            dragOffset = 0;
-            track.classList.add('is-dragging');
-        }, { passive: true });
+            function updateSlideWidth() {
+                slideWidth = wrapper.offsetWidth;
+            }
+            updateSlideWidth();
+            window.addEventListener('resize', updateSlideWidth);
 
-        track.addEventListener('touchmove', function(e) {
-            if (!isDragging) return;
-            currentX = e.touches[0].clientX;
-            dragOffset = startX - currentX;
-            var percent = -(currentSlide * 100) - (dragOffset / track.offsetWidth * 100);
-            track.style.transform = 'translateX(' + percent + '%)';
-        }, { passive: true });
+            function updateCounter() {
+                counterEl.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+            }
 
-        track.addEventListener('touchend', function(e) {
-            if (!isDragging) return;
-            isDragging = false;
-            track.classList.remove('is-dragging');
-            if (Math.abs(dragOffset) > 50) {
-                if (dragOffset > 0) {
-                    moveCarousel(1);
-                } else {
-                    moveCarousel(-1);
-                }
-            } else {
+            function moveCarousel(direction) {
+                currentSlide += direction;
+                if (currentSlide < 0) currentSlide = totalSlides - 1;
+                if (currentSlide >= totalSlides) currentSlide = 0;
                 updateCarousel();
             }
-        });
 
-        // Mouse events per swipe su desktop
-        track.addEventListener('mousedown', function(e) {
-            startX = e.clientX;
-            isDragging = true;
-            dragOffset = 0;
-            track.classList.add('is-dragging');
-            e.preventDefault();
-        });
-
-        track.addEventListener('mousemove', function(e) {
-            if (!isDragging) return;
-            currentX = e.clientX;
-            dragOffset = startX - currentX;
-            var percent = -(currentSlide * 100) - (dragOffset / track.offsetWidth * 100);
-            track.style.transform = 'translateX(' + percent + '%)';
-        });
-
-        track.addEventListener('mouseup', function(e) {
-            if (!isDragging) return;
-            isDragging = false;
-            track.classList.remove('is-dragging');
-            if (Math.abs(dragOffset) > 50) {
-                if (dragOffset > 0) {
-                    moveCarousel(1);
-                } else {
-                    moveCarousel(-1);
-                }
-            } else {
+            function goToSlide(index) {
+                currentSlide = index;
                 updateCarousel();
             }
-        });
 
-        track.addEventListener('mouseleave', function() {
-            if (isDragging) {
+            function updateCarousel() {
+                track.style.transition = 'transform 0.4s ease-out';
+                track.style.transform = 'translateX(-' + (currentSlide * slideWidth) + 'px)';
+
+                var dots = document.querySelectorAll('.carousel-dot');
+                for (var i = 0; i < dots.length; i++) {
+                    dots[i].classList.remove('active');
+                }
+                dots[currentSlide].classList.add('active');
+                updateCounter();
+            }
+
+            function setTransform(offset) {
+                track.style.transition = 'none';
+                track.style.transform = 'translateX(' + (-currentSlide * slideWidth - offset) + 'px)';
+            }
+
+            // ========== TOUCH EVENTS (MOBILE) ==========
+            wrapper.addEventListener('touchstart', function(e) {
+                var touch = e.touches[0];
+                startX = touch.clientX;
+                startY = touch.clientY;
+                isDragging = true;
+                isHorizontal = false;
+                dragOffset = 0;
+            }, { passive: true });
+
+            wrapper.addEventListener('touchmove', function(e) {
+                if (!isDragging) return;
+
+                var touch = e.touches[0];
+                currentX = touch.clientX;
+                var diffX = startX - currentX;
+                var diffY = startY - touch.clientY;
+
+                // Determina se lo swipe è orizzontale
+                if (!isHorizontal && Math.abs(diffX) > Math.abs(diffY)) {
+                    isHorizontal = true;
+                }
+
+                if (isHorizontal) {
+                    dragOffset = diffX;
+                    setTransform(dragOffset);
+                }
+            }, { passive: true });
+
+            wrapper.addEventListener('touchend', function(e) {
+                if (!isDragging) return;
                 isDragging = false;
-                track.classList.remove('is-dragging');
-                updateCarousel();
-            }
-        });
 
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowLeft') moveCarousel(-1);
-            if (e.key === 'ArrowRight') moveCarousel(1);
-        });
+                if (isHorizontal && Math.abs(dragOffset) > 50) {
+                    if (dragOffset > 0) {
+                        moveCarousel(1);
+                    } else {
+                        moveCarousel(-1);
+                    }
+                } else {
+                    updateCarousel();
+                }
+            }, { passive: true });
+
+            wrapper.addEventListener('touchcancel', function(e) {
+                if (isDragging) {
+                    isDragging = false;
+                    updateCarousel();
+                }
+            }, { passive: true });
+
+            // ========== MOUSE EVENTS (DESKTOP) ==========
+            wrapper.addEventListener('mousedown', function(e) {
+                startX = e.clientX;
+                isDragging = true;
+                dragOffset = 0;
+                e.preventDefault();
+            });
+
+            wrapper.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                currentX = e.clientX;
+                dragOffset = startX - currentX;
+                setTransform(dragOffset);
+            });
+
+            wrapper.addEventListener('mouseup', function(e) {
+                if (!isDragging) return;
+                isDragging = false;
+
+                if (Math.abs(dragOffset) > 50) {
+                    if (dragOffset > 0) {
+                        moveCarousel(1);
+                    } else {
+                        moveCarousel(-1);
+                    }
+                } else {
+                    updateCarousel();
+                }
+            });
+
+            wrapper.addEventListener('mouseleave', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    updateCarousel();
+                }
+            });
+
+            // ========== KEYBOARD NAVIGATION ==========
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') moveCarousel(-1);
+                if (e.key === 'ArrowRight') moveCarousel(1);
+            });
+
+            // Auto-snap dopo resize
+            window.addEventListener('resize', function() {
+                updateSlideWidth();
+                updateCarousel();
+            });
+
+        })();
     </script>
 
 </body>
